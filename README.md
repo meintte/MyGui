@@ -3,7 +3,7 @@
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Ubuntu/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Style/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Install/badge.svg)](https://github.com/meintte/MyGui/actions)
-[![codecov](https://codecov.io/gh/meintte/MyGui/branch/master/graph/badge.svg)](https://codecov.io/gh/meintte/MyGui)
+[![codecov](https://codecov.io/gh/meintte/MyGui/branch/main/graph/badge.svg?token=XG8BZ8JS79)](https://codecov.io/gh/meintte/MyGui)
 
 <p align="center">
   <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
