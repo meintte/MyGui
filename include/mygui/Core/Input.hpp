@@ -14,4 +14,4 @@ namespace mygui {
         static float GetMouseX();
         static float GetMouseY();
     };
-}
+}  // namespace mygui

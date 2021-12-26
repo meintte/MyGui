@@ -50,17 +50,17 @@ namespace mygui {
 
             switch (action) {
                 case GLFW_PRESS: {
-                    KeyPressedEvent event(key, 0);
+                    KeyPressedEvent event((uint16_t)key, 0);
                     data.EventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE: {
-                    KeyReleasedEvent event(key);
+                    KeyReleasedEvent event((uint16_t)key);
                     data.EventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT: {
-                    KeyPressedEvent event(key, 1);
+                    KeyPressedEvent event((uint16_t)key, 1);
                     data.EventCallback(event);
                     break;
                 }
@@ -69,7 +69,7 @@ namespace mygui {
 
         glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-            KeyTypedEvent event(keycode);
+            KeyTypedEvent event((uint16_t)keycode);
             data.EventCallback(event);
         });
 
@@ -79,12 +79,12 @@ namespace mygui {
 
                 switch (action) {
                     case GLFW_PRESS: {
-                        MouseButtonPressedEvent event(button);
+                        MouseButtonPressedEvent event((uint16_t)button);
                         data.EventCallback(event);
                         break;
 
                         {
-                            MouseButtonReleasedEvent event(button);
+                            MouseButtonReleasedEvent event((uint16_t)button);
                             data.EventCallback(event);
                             break;
                         }
