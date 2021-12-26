@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # Note: update this to your new project's name and version
 project(
-  Greeter
+  Mygui
   VERSION 1.0
   LANGUAGES CXX
 )
@@ -33,11 +33,50 @@ CPMAddPackage(
   OPTIONS "FMT_INSTALL YES" # create an installable target
 )
 
+CPMAddPackage(
+  GITHUB_REPOSITORY glfw/glfw
+  GIT_TAG latest
+  OPTIONS "GLFW_BUILD_EXAMPLES NO" "GLFW_BUILD_TESTS NO" "GLFW_BUILD_DOCS NO"
+)
+
+CPMAddPackage(
+  NAME glad
+  GITHUB_REPOSITORY Dav1dde/glad
+  VERSION 0.1.31
+  OPTIONS "GLAD_INSTALL"
+)
+
+CPMAddPackage(
+  NAME imgui
+  GITHUB_REPOSITORY ocornut/imgui
+  # GIT_TAG latest
+  VERSION 1.86
+  DOWNLOAD_ONLY TRUE
+)
+
+if(NOT ${imgui_ADDED})
+  message(FATAL_ERROR "Could not find imgui")
+else()
+  file(GLOB imgui_files CONFIGURE_DEPENDS ${imgui_SOURCE_DIR}/*.h ${imgui_SOURCE_DIR}/*.cpp)
+
+  add_library(imgui STATIC ${imgui_files})
+  packageProject(
+    NAME imgui
+    VERSION 1.86
+    NAMESPACE IMGUI
+    BINARY_DIR ${imgui_BINARY_DIR}
+    INCLUDE_DIR ${imgui_SOURCE_DIR}
+    INCLUDE_DESTINATION include/imgui-1.86
+    VERSION_HEADER "${VERSION_HEADER_LOCATION}"
+    COMPATIBILITY SameMajorVersion
+  )
+endif()
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files
 # automatically. Keep that in mind when changing files, or explicitly mention them here.
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+file(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 # ---- Create library ----
@@ -53,6 +92,9 @@ target_compile_options(${PROJECT_NAME} PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>
 
 # Link dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+target_link_libraries(${PROJECT_NAME} PRIVATE glad)
+target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
