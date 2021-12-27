@@ -23,12 +23,22 @@ TEST_CASE("LayerStack") {
         CHECK(order_1[i++] == (*it)->GetName());
     }
     i = 0;
+    for (std::vector<mygui::Layer*>::const_iterator it = stack.begin(); it != stack.end(); it++) {
+        CHECK(order_1[i++] == (*it)->GetName());
+    }
+    i = 0;
     for (const auto it : stack) {
         CHECK(order_1[i++] == it->GetName());
     }
+
     // reverse iterator
     i = 3;
     for (auto it = stack.rbegin(); it != stack.rend(); it++) {
+        CHECK(order_1[i--] == (*it)->GetName());
+    }
+    i = 3;
+    for (std::vector<mygui::Layer*>::const_reverse_iterator it = stack.rbegin(); it != stack.rend();
+         it++) {
         CHECK(order_1[i--] == (*it)->GetName());
     }
 
