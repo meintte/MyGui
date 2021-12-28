@@ -1,4 +1,3 @@
-<All the badges>
 [![Actions Status](https://github.com/meintte/MyGui/workflows/MacOS/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Windows/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Ubuntu/badge.svg)](https://github.com/meintte/MyGui/actions)
