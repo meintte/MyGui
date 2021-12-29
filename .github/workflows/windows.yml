@@ -1,4 +1,4 @@
-name: MacOS
+name: Windows
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
   CI:
     uses: meintte/MyGui/.github/workflows/ci.yml@master
     with:
-      os: macos-latest
+      os: windows-latest
       dependencies: echo "No dependencies"
       ENABLE_TEST_COVERAGE: 0
     secrets:

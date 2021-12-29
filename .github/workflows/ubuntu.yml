@@ -10,18 +10,11 @@ on:
       - master
       - main
 
-env:
-  CTEST_OUTPUT_ON_FAILURE: 1
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
-
 jobs:
-  call-ci:
-    uses: meintte/MyGui/.github/workflows/ci_tmp.yml@master
+  CI:
+    uses: meintte/MyGui/.github/workflows/ci.yml@master
     with:
       os: ubuntu-latest
-      username: test_user
-      dependencies: test_depend
-
+      dependencies: sudo apt install xorg-dev
     secrets:
-      token: ${{ secrets.CODECOV_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

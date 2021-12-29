@@ -1,33 +1,36 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-      - main
-  pull_request:
-    branches:
-      - master
-      - main
+  workflow_call:
+    inputs:
+      os:
+        default: "ubuntu-latest"
+        type: string
+      dependencies:
+        default: echo "No dependencies"
+        type: string
+      CPM_SOURCE_CACHE:
+        default: ${{ github.workspace }}/cpm_modules
+        type: string
+      CTEST_OUTPUT_ON_FAILURE:
+        default: 1
+        type: number
+      ENABLE_TEST_COVERAGE:
+        default: 1
+        type: number
+      CMAKE_BUILD_TYPE:
+        default: Debug
+        type: string
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 
 env:
-  CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            dependencies: sudo apt install xorg-dev
-          - os: windows-latest
-            dependencies: echo "No dependencies"
-          - os: macos-latest
-            dependencies: echo "No dependencies"
+    runs-on: ${{ inputs.os }}
 
     steps:
       - uses: actions/checkout@v2
@@ -38,12 +41,10 @@ jobs:
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
       - name: install dependencies
-        run: |
-          echo ${{ matrix.dependencies }}
-          ${{ matrix.dependencies }}
+        run: ${{ inputs.dependencies }}
 
       - name: configure
-        run: cmake -Stest -Bbuild -DENABLE_TEST_COVERAGE=1 -DCMAKE_BUILD_TYPE=Debug
+        run: cmake -Stest -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}
 
       - name: build
         run: cmake --build build -j4
@@ -54,22 +55,12 @@ jobs:
           ctest --build-config Debug
 
       - name: collect code coverage
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ inputs.ENABLE_TEST_COVERAGE == 1 }}
         run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
 
   install:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            dependencies: sudo apt install xorg-dev
-          - os: windows-latest
-            dependencies: echo "No dependencies"
-          - os: macos-latest
-            dependencies: echo "No dependencies"
-    needs: build (${{ matrix.os }})
+    runs-on: ${{ inputs.os }}
+    needs: build
     steps:
       - name: build Release
         run: |
@@ -88,21 +79,11 @@ jobs:
           ctest --build-config Debug
 
   standalone:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            dependencies: sudo apt install xorg-dev
-          - os: windows-latest
-            dependencies: echo "No dependencies"
-          - os: macos-latest
-            dependencies: echo "No dependencies"
-    needs: install (${{ matrix.os }})
+    runs-on: ${{ inputs.os }}
+    needs: install
     steps:
       - name: configure
-        run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug
+        run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=${{inputs.CMAKE_BUILD_TYPE}}
 
       - name: build
         run: cmake --build build -j4
