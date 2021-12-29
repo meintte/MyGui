@@ -2,7 +2,8 @@
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Windows/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Ubuntu/badge.svg)](https://github.com/meintte/MyGui/actions)
 [![Actions Status](https://github.com/meintte/MyGui/workflows/Style/badge.svg)](https://github.com/meintte/MyGui/actions)
-[![Actions Status](https://github.com/meintte/MyGui/workflows/Install/badge.svg)](https://github.com/meintte/MyGui/actions)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/16360d35c53c4228bc01b0b12a09afa6)](https://www.codacy.com/gh/meintte/MyGui/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=meintte/MyGui&amp;utm_campaign=Badge_Grade)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/meintte/MyGui.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/meintte/MyGui/context:cpp)
 [![codecov](https://codecov.io/gh/meintte/MyGui/branch/master/graph/badge.svg?token=XG8BZ8JS79)](https://codecov.io/gh/meintte/MyGui)
 
 # Mygui

@@ -1,0 +1,28 @@
+name: MacOS
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
+
+jobs:
+  call-ci:
+    runs-on: macos-latest
+    steps:
+      - uses: meintte/MyGui/.github/workflows/ci_tmp.yml@$GITHUB_REF_NAME
+        with:
+          username: test_user
+          dependencies: test_depend
+
+          secrets:
+            token: ${{ secrets.CODECOV_TOKEN }}
