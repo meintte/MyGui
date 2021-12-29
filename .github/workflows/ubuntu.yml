@@ -17,6 +17,7 @@ env:
 
 jobs:
   call-ci:
+    runs-on: ubuntu-latest
     uses: meintte/MyGui/.github/workflows/ci_tmp.yml@master
     with:
       username: test_user
