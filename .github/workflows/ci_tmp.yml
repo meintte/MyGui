@@ -18,5 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       run: |
-        echo "username: ${{ inputs.username }}"
-        echo "dependencies: ${{ inputs.dependencies }}"
+      echo "test echo"
+      echo "username ${{ inputs.username }}"
+
+    # echo ${{"dependencies: inputs.dependencies "}}
