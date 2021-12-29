@@ -23,7 +23,7 @@ namespace mygui {
         void SetVSync(bool enabled) override;
         inline bool IsVSync() const override;
 
-        virtual void* GetNativeWindow() const;
+        virtual void* GetNativeWindow() const override;
 
     private:
         virtual void Init(const WindowProperties& properties);
