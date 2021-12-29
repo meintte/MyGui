@@ -59,6 +59,16 @@ jobs:
 
   install:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            dependencies: sudo apt install xorg-dev
+          - os: windows-latest
+            dependencies: echo "No dependencies"
+          - os: macos-latest
+            dependencies: echo "No dependencies"
     needs: build (${{ matrix.os }})
     steps:
       - name: build Release
@@ -79,6 +89,16 @@ jobs:
 
   standalone:
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            dependencies: sudo apt install xorg-dev
+          - os: windows-latest
+            dependencies: echo "No dependencies"
+          - os: macos-latest
+            dependencies: echo "No dependencies"
     needs: install (${{ matrix.os }})
     steps:
       - name: configure
