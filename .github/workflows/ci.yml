@@ -51,7 +51,7 @@ jobs:
           ctest --build-config Debug
 
       - name: collect code coverage
-        if: ${{ matrix.os == ubuntu-latest }}
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
 
   install:
@@ -73,3 +73,16 @@ jobs:
         run: |
           cd build
           ctest --build-config Debug
+
+  standalone:
+    runs-on: ${{ matrix.os }}
+    needs: install
+    steps:
+      - name: configure
+        run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug
+
+      - name: build
+        run: cmake --build build -j4
+
+      - name: run
+        run: ./build/Mygui
