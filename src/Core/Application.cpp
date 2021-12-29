@@ -20,7 +20,7 @@ namespace mygui {
         while (m_Running) {
             m_Window->OnUpdate();
             double time = glfwGetTime();
-            m_LastFrameTime = static_cast<float>(time);
+            m_LastFrameTime = (float)time;
         }
     }
 
