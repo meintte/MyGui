@@ -82,12 +82,12 @@ namespace mygui {
                         MouseButtonPressedEvent event((uint16_t)button);
                         data.EventCallback(event);
                         break;
+                    }
 
-                        {
-                            MouseButtonReleasedEvent event((uint16_t)button);
-                            data.EventCallback(event);
-                            break;
-                        }
+                    case GLFW_RELEASE: {
+                        MouseButtonReleasedEvent event((uint16_t)button);
+                        data.EventCallback(event);
+                        break;
                     }
                 }
                 WindowCloseEvent event;
