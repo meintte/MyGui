@@ -39,7 +39,7 @@ namespace mygui {
         bool m_Running = true;
         bool m_Minimized = false;
         LayerStack m_LayerStack;
-        [[maybe_unused]] float m_LastFrameTime = 0.0f;
+        float m_LastFrameTime = 0.0f;
 
         static Application* s_Instance;
     };
