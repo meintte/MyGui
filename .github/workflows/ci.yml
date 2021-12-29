@@ -20,13 +20,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-          - windows-latest
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: ubuntu-latest
             dependencies: sudo apt install xorg-dev
+          - os: windows-latest
+            dependencies: echo "No dependencies"
+          - os: macos-latest
+            dependencies: echo "No dependencies"
 
     steps:
       - uses: actions/checkout@v2
