@@ -59,7 +59,7 @@ jobs:
 
   install:
     runs-on: ${{ matrix.os }}
-    needs: build
+    needs: build (${{ matrix.os }})
     steps:
       - name: build Release
         run: |
@@ -79,7 +79,7 @@ jobs:
 
   standalone:
     runs-on: ${{ matrix.os }}
-    needs: install
+    needs: install (${{ matrix.os }})
     steps:
       - name: configure
         run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_BUILD_TYPE=Debug
