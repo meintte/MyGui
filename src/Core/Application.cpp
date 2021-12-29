@@ -19,6 +19,8 @@ namespace mygui {
     void Application::Run() {
         while (m_Running) {
             m_Window->OnUpdate();
+            double time = glfwGetTime();
+            m_LastFrameTime = (float)time;
         }
     }
 
