@@ -16,5 +16,6 @@ jobs:
     with:
       os: ubuntu-latest
       dependencies: sudo apt install xorg-dev
+      CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
