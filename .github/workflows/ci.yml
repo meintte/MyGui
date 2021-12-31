@@ -44,10 +44,10 @@ jobs:
         run: ${{ inputs.dependencies }}
 
       - name: configure
-        run: cmake -Stest -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}
+        run: cmake -Sall -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}  -DTEST_INSTALLED_VERSION=1
 
       - name: build
-        run: cmake --build build -j4
+        run: cmake --build build --target MyguiTest -j4
 
       - name: test
         run: |
@@ -58,35 +58,22 @@ jobs:
         if: ${{ inputs.ENABLE_TEST_COVERAGE == 1 }}
         run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
 
+      - name: return to directory
+        run: cd ..
+
   install:
     runs-on: ${{ inputs.os }}
     needs: build
     steps:
-      - name: build Release
-        run: |
-          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-          sudo cmake --build build --target install
-          rm -rf build
-      - name: configure
-        run: cmake -Stest -Bbuild -DTEST_INSTALLED_VERSION=1
-
-      - name: build
-        run: cmake --build build --config Debug -j4
-
-      - name: test
-        run: |
-          cd build
-          ctest --build-config Debug
+      - name: install
+        run: cmake --build build --target install
 
   standalone:
     runs-on: ${{ inputs.os }}
     needs: install
     steps:
-      - name: configure
-        run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=${{inputs.CMAKE_BUILD_TYPE}}
-
       - name: build
-        run: cmake --build build -j4
+        run: cmake --build build --target MyguiStandalone -j4
 
       - name: run
         run: ./build/Mygui
