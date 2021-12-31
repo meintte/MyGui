@@ -47,7 +47,7 @@ jobs:
         run: cmake -Sall -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}  -DTEST_INSTALLED_VERSION=1
 
       - name: build
-        run: cmake --build build --target MyguiTest -j4
+        run: cmake --build build --target MyguiTests -j4
 
       - name: test
         run: |
@@ -67,6 +67,9 @@ jobs:
     steps:
       - name: install
         run: cmake --build build --target install
+
+      - name: uninstall
+        run: cmake --build build --target uninstall
 
   standalone:
     runs-on: ${{ inputs.os }}
