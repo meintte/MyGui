@@ -79,7 +79,7 @@ jobs:
         run: |
           cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
           ${{ (startsWith(inputs.os, 'windows') && 'cmake') || 'sudo cmake' }} --build build --target install
-          rm -r -${{ (startsWith(inputs.os, 'windows') && 'Force') || 'f' }} build
+          ${{ (startsWith(inputs.os, 'windows') && 'rm -r -Force') || 'sudo rm -rf' }} build
 
       - name: configure test
         run: cmake -Stest -Bbuild -DTEST_INSTALLED_VERSION=1
