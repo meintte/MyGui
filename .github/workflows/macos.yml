@@ -19,3 +19,4 @@ jobs:
       ENABLE_TEST_COVERAGE: 0
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      CODACY_TOKEN: ${{ secrets.CODACY_TOKEN }}

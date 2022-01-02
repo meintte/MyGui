@@ -18,3 +18,4 @@ jobs:
       dependencies: sudo apt install xorg-dev
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      CODACY_TOKEN: ${{ secrets.CODACY_TOKEN }}
