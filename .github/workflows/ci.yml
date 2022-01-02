@@ -57,13 +57,15 @@ jobs:
           cd build
           ctest --build-config Debug
 
-      - name: collect code coverage
+      - name: collect code coverage for CODECOV
         if: ${{ inputs.ENABLE_TEST_COVERAGE == 1 }}
-        run: |
-          pip install coveragepy
-          bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-          export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_TOKEN }}
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) -r *.xml || echo "Codacy did not collect coverage reports"
+        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+      - name: collect code coverage for CODACY
+        if: ${{ inputs.ENABLE_TEST_COVERAGE == 1 }}
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project_token: ${{ secrets.CODACY_TOKEN }}
+          coverage-reports: cobertura.xml
 
       - name: return to directory
         run: cd ..
