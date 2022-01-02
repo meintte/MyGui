@@ -60,9 +60,10 @@ jobs:
       - name: collect code coverage
         if: ${{ inputs.ENABLE_TEST_COVERAGE == 1 }}
         run: |
+          pip install coveragepy
           bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
           export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_TOKEN }}
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) || echo "Codacy did not collect coverage reports"
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) -r *.xml || echo "Codacy did not collect coverage reports"
 
       - name: return to directory
         run: cd ..
