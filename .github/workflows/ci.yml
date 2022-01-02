@@ -72,6 +72,9 @@ jobs:
           path: "**/cpm_modules"
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
+      - name: install dependencies
+        run: ${{ inputs.dependencies }}
+
       - name: build and install library
         run: |
           cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
@@ -103,6 +106,9 @@ jobs:
           path: "**/cpm_modules"
           key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
+      - name: install dependencies
+        run: ${{ inputs.dependencies }}
+
       - name: configure
         run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=Debug
 
@@ -110,4 +116,5 @@ jobs:
         run: cmake --build build --target MyGuiStandalone -j4
 
       - name: run
-        run: ./build/${{ (startsWith(inputs.os, 'windows') && 'Debug/MyGui.exe') || 'MyGui' }}
+        run: echo "Don't run this project as it needs a graphics context"
+        # run: ./build/${{ (startsWith(inputs.os, 'windows') && 'Debug/MyGui.exe') || 'MyGui' }}
