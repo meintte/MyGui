@@ -44,10 +44,10 @@ jobs:
         run: ${{ inputs.dependencies }}
 
       - name: configure
-        run: cmake -Sall -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}  -DTEST_INSTALLED_VERSION=1
+        run: cmake -Sall -Bbuild -DENABLE_TEST_COVERAGE=${{ inputs.ENABLE_TEST_COVERAGE }} -DCMAKE_BUILD_TYPE=${{ inputs.CMAKE_BUILD_TYPE}}  -DTEST_INSTALLED_VERSION=0
 
       - name: build
-        run: cmake --build build --target MyguiTests -j4
+        run: cmake --build build --target MyGuiTests -j4
 
       - name: test
         run: |
@@ -65,18 +65,49 @@ jobs:
     runs-on: ${{ inputs.os }}
     needs: build
     steps:
-      - name: install
-        run: cmake --build build --target install
+      - uses: actions/checkout@v2
 
-      - name: uninstall
-        run: cmake --build build --target uninstall
+      - uses: actions/cache@v2
+        with:
+          path: "**/cpm_modules"
+          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+
+      - name: build and install library
+        run: |
+          cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+          ${{ (startsWith(inputs.os, 'windows') && 'cmake') || 'sudo cmake' }} --build build --target install
+          rm -r -${{ (startsWith(inputs.os, 'windows') && 'Force') || 'f' }} build
+
+      - name: configure test
+        run: cmake -Stest -Bbuild -DTEST_INSTALLED_VERSION=1
+
+      - name: build test
+        run: cmake --build build --config Debug -j4
+
+      - name: run test
+        run: |
+          cd build
+          ctest --build-config Debug
+
+      # - name: uninstall
+      #   run: cmake --build build --target uninstall
 
   standalone:
     runs-on: ${{ inputs.os }}
-    needs: install
+    needs: build
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/cpm_modules"
+          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+
+      - name: configure
+        run: cmake -Sstandalone -Bbuild -DCMAKE_BUILD_TYPE=Debug
+
       - name: build
-        run: cmake --build build --target MyguiStandalone -j4
+        run: cmake --build build --target MyGuiStandalone -j4
 
       - name: run
-        run: ./build/Mygui
+        run: ./build/${{ (startsWith(inputs.os, 'windows') && 'Debug/MyGui.exe') || 'MyGui' }}

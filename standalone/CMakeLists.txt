@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
-project(MyguiStandalone LANGUAGES CXX)
+project(MyGuiStandalone LANGUAGES CXX)
 
 # --- Import tools ----
 
@@ -16,7 +16,7 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL YES"
 )
 
-CPMAddPackage(NAME Mygui SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
+CPMAddPackage(NAME MyGui SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # ---- Create standalone executable ----
 
@@ -24,6 +24,7 @@ file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_executable(${PROJECT_NAME} ${sources})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "Mygui")
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17 OUTPUT_NAME "MyGui")
 
-target_link_libraries(${PROJECT_NAME} Mygui::Mygui cxxopts)
+target_link_libraries(${PROJECT_NAME} cxxopts)
+target_link_libraries(${PROJECT_NAME} MyGui::MyGui)

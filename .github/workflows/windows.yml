@@ -16,7 +16,6 @@ jobs:
     with:
       os: windows-latest
       dependencies: echo "No dependencies"
-      CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
       ENABLE_TEST_COVERAGE: 0
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
